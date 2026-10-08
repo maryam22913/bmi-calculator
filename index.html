@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart BMI Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-decor">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+  </div>
+
+  <main class="container">
+    <div class="calculator-card">
+      <header class="header">
+        <div class="badge">⚖️ Health Tracker</div>
+        <h1>BMI Calculator</h1>
+        <p>Apna Body Mass Index (BMI) maloom karein aur healthy rahein!</p>
+      </header>
+
+      <!-- Unit Selector Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" id="metric-tab" type="button">Metric (kg / cm)</button>
+        <button class="tab-btn" id="imperial-tab" type="button">Imperial (lbs / ft-in)</button>
+      </div>
+
+      <form id="bmi-form">
+        <!-- Gender Selection -->
+        <div class="gender-section">
+          <label class="section-label">Gender</label>
+          <div class="gender-toggle">
+            <label class="gender-option active" id="gender-male">
+              <input type="radio" name="gender" value="male" checked>
+              <span class="icon">👨</span>
+              <span>Male</span>
+            </label>
+            <label class="gender-option" id="gender-female">
+              <input type="radio" name="gender" value="female">
+              <span class="icon">👩</span>
+              <span>Female</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Metric Inputs -->
+        <div id="metric-inputs" class="input-group">
+          <div class="input-field">
+            <label for="height-cm">Height (cm)</label>
+            <div class="input-wrapper">
+              <input type="number" id="height-cm" placeholder="e.g. 170" min="50" max="250" step="0.1">
+              <span class="unit">cm</span>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="weight-kg">Weight (kg)</label>
+            <div class="input-wrapper">
+              <input type="number" id="weight-kg" placeholder="e.g. 65" min="20" max="300" step="0.1">
+              <span class="unit">kg</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Imperial Inputs -->
+        <div id="imperial-inputs" class="input-group hidden">
+          <div class="input-field">
+            <label>Height (Feet & Inches)</label>
+            <div class="height-dual">
+              <div class="input-wrapper">
+                <input type="number" id="height-ft" placeholder="Feet" min="2" max="8">
+                <span class="unit">ft</span>
+              </div>
+              <div class="input-wrapper">
+                <input type="number" id="height-in" placeholder="Inches" min="0" max="11">
+                <span class="unit">in</span>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="weight-lbs">Weight (Pounds)</label>
+            <div class="input-wrapper">
+              <input type="number" id="weight-lbs" placeholder="e.g. 145" min="40" max="600" step="0.1">
+              <span class="unit">lbs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary" id="calculate-btn">
+            <span>Calculate BMI</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <div id="result-box" class="result-box hidden">
+        <hr class="divider">
+        
+        <div class="score-display">
+          <span class="score-label">Your BMI Score</span>
+          <div class="score-value" id="bmi-value">--</div>
+          <div class="status-badge" id="bmi-category">Normal</div>
+        </div>
+
+        <!-- BMI Scale Gauge -->
+        <div class="scale-container">
+          <div class="scale-bar">
+            <div class="scale-segment seg-under"></div>
+            <div class="scale-segment seg-normal"></div>
+            <div class="scale-segment seg-over"></div>
+            <div class="scale-segment seg-obese"></div>
+          </div>
+          <div class="scale-needle" id="scale-needle"></div>
+          <div class="scale-labels">
+            <span>&lt;18.5</span>
+            <span>18.5 - 24.9</span>
+            <span>25 - 29.9</span>
+            <span>30+</span>
+          </div>
+        </div>
+
+        <!-- Health Advice Card -->
+        <div class="advice-card" id="advice-card">
+          <div class="advice-icon" id="advice-icon">💡</div>
+          <div class="advice-text" id="advice-text">
+            Aapka wazan bilkul munasib hai! Healthy diet aur daily walk continue rakhein.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
