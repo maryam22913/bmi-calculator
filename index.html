@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BMI Calculator - Professional Health Tool</title>
+  <title>BMI Calculator - Smart Health & Fitness Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,8 +19,14 @@
         </div>
         <div class="brand-text">
           <span class="brand-name">BMI Calculator</span>
-          <span class="brand-tag">Professional Health Tool</span>
+          <span class="brand-tag">Professional Health & Wellness Tool</span>
         </div>
+      </div>
+      <div class="nav-links">
+        <a href="#calculator-section" class="nav-link">Calculator</a>
+        <a href="#about-bmi" class="nav-link">What is BMI?</a>
+        <a href="#bmi-categories" class="nav-link">Categories</a>
+        <a href="#faqs" class="nav-link">FAQs</a>
       </div>
       <div class="nav-auth" id="nav-auth">
         <button type="button" class="btn-signin" id="open-signin-btn">
@@ -30,7 +36,17 @@
     </div>
   </nav>
 
-  <main class="page-container">
+  <!-- Hero Header -->
+  <header class="hero-header">
+    <div class="hero-content">
+      <span class="hero-badge">✨ Evidence-Based Health Metrics</span>
+      <h1>Smart Body Mass Index (BMI) Calculator</h1>
+      <p>Check your body mass index, understand your ideal weight range, and take charge of your wellness journey today.</p>
+    </div>
+  </header>
+
+  <!-- Main Calculator Container -->
+  <main class="page-container" id="calculator-section">
     <div class="calculator-grid">
       
       <!-- Left Column: Inputs Form -->
@@ -141,7 +157,7 @@
         </form>
       </section>
 
-      <!-- Right Column: Interactive Google-Style Results -->
+      <!-- Right Column: Interactive Results -->
       <section class="results-panel card">
         <div class="panel-header">
           <h2>BMI Results & Insights</h2>
@@ -181,7 +197,7 @@
           </div>
         </div>
 
-        <!-- Key Metrics Cards (Google-style breakdown) -->
+        <!-- Key Metrics Cards -->
         <div class="metrics-grid">
           <div class="metric-box">
             <span class="m-label">🎯 Healthy Weight Range</span>
@@ -264,6 +280,256 @@
 
     </div>
   </main>
+
+  <!-- ==============================================
+       EDITORIAL / EDUCATIONAL CONTENT SECTION
+       ============================================== -->
+  
+  <!-- Section 1: What is BMI & How it Works -->
+  <section class="content-section" id="about-bmi">
+    <div class="content-wrapper">
+      <div class="section-title-wrap">
+        <span class="section-badge">Comprehensive Guide</span>
+        <h2>What is Body Mass Index (BMI)?</h2>
+        <p class="section-subtext">Body Mass Index (BMI) is an internationally recognized screening tool that estimates your total body fat based on the relationship between your weight and height.</p>
+      </div>
+
+      <div class="content-grid-2">
+        <div class="info-card">
+          <div class="card-icon-header">
+            <span class="icon-circle">📖</span>
+            <h3>The Science Behind BMI</h3>
+          </div>
+          <p>Created in the 1830s by Belgian statistician Adolphe Quetelet, BMI provides an inexpensive, non-invasive method to identify whether someone is underweight, has a healthy weight, is overweight, or is obese.</p>
+          <p>Healthcare professionals and international bodies like the <strong>World Health Organization (WHO)</strong> and the <strong>Centers for Disease Control and Prevention (CDC)</strong> use BMI to track population health trends and assess risks for cardiovascular conditions.</p>
+        </div>
+
+        <div class="info-card">
+          <div class="card-icon-header">
+            <span class="icon-circle">📐</span>
+            <h3>How is BMI Calculated? (Formulas)</h3>
+          </div>
+          <p>BMI is determined by dividing an individual's weight by the square of their height:</p>
+          <div class="formula-box">
+            <div class="formula-title">Metric Formula (Global Standard):</div>
+            <code>BMI = Weight (kg) ÷ [Height (m)]²</code>
+          </div>
+          <div class="formula-box">
+            <div class="formula-title">Imperial Formula (US Standard):</div>
+            <code>BMI = 703 × Weight (lbs) ÷ [Height (inches)]²</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Detailed Category Breakdown & Health Guidelines -->
+  <section class="content-section bg-alt" id="bmi-categories">
+    <div class="content-wrapper">
+      <div class="section-title-wrap">
+        <span class="section-badge">Clinical Understanding</span>
+        <h2>Understanding Your BMI Categories & Health Impact</h2>
+        <p class="section-subtext">Each category indicates specific biological indicators and actionable lifestyle recommendations.</p>
+      </div>
+
+      <div class="cards-grid-4">
+        
+        <!-- Underweight -->
+        <div class="category-card card-under">
+          <div class="cat-header">
+            <span class="cat-tag">BMI &lt; 18.5</span>
+            <h4>Underweight</h4>
+          </div>
+          <p class="cat-desc">Your weight is below the expected range for your height. This may stem from genetics, high metabolism, or nutritional deficiencies.</p>
+          <div class="cat-points">
+            <strong>Risks:</strong>
+            <ul>
+              <li>Weakened immune system</li>
+              <li>Osteoporosis & bone fragility</li>
+              <li>Fatigue and muscle loss</li>
+            </ul>
+          </div>
+          <div class="cat-tip">
+            💡 <strong>Action Tip:</strong> Focus on nutrient-dense meals, wholesome nuts, avocados, and quality proteins.
+          </div>
+        </div>
+
+        <!-- Normal Weight -->
+        <div class="category-card card-normal">
+          <div class="cat-header">
+            <span class="cat-tag">BMI 18.5 – 24.9</span>
+            <h4>Normal Weight</h4>
+          </div>
+          <p class="cat-desc">Congratulations! You are within the optimal health zone with the lowest statistical risk of metabolic and heart illnesses.</p>
+          <div class="cat-points">
+            <strong>Benefits:</strong>
+            <ul>
+              <li>Optimal cardiovascular stamina</li>
+              <li>Balanced blood sugar levels</li>
+              <li>Healthy joint mobility</li>
+            </ul>
+          </div>
+          <div class="cat-tip">
+            💡 <strong>Action Tip:</strong> Keep up consistent habits: 30 minutes of daily physical activity and a balanced diet.
+          </div>
+        </div>
+
+        <!-- Overweight -->
+        <div class="category-card card-over">
+          <div class="cat-header">
+            <span class="cat-tag">BMI 25.0 – 29.9</span>
+            <h4>Overweight</h4>
+          </div>
+          <p class="cat-desc">You are carrying more weight than recommended. Modest, sustainable habits can easily bring you back to normal.</p>
+          <div class="cat-points">
+            <strong>Risks:</strong>
+            <ul>
+              <li>Early hypertension / high BP</li>
+              <li>Mild joint strain in knees & hips</li>
+              <li>Increased cholesterol risk</li>
+            </ul>
+          </div>
+          <div class="cat-tip">
+            💡 <strong>Action Tip:</strong> Reduce sugary drinks, practice portion control, and add 7,000–10,000 daily steps.
+          </div>
+        </div>
+
+        <!-- Obese -->
+        <div class="category-card card-obese">
+          <div class="cat-header">
+            <span class="cat-tag">BMI ≥ 30.0</span>
+            <h4>Obesity</h4>
+          </div>
+          <p class="cat-desc">Significant excess body weight that places sustained strain on vital internal organs and joint systems.</p>
+          <div class="cat-points">
+            <strong>Risks:</strong>
+            <ul>
+              <li>Type 2 diabetes & fatty liver</li>
+              <li>Cardiovascular complications</li>
+              <li>Sleep apnea and breathlessness</li>
+            </ul>
+          </div>
+          <div class="cat-tip">
+            💡 <strong>Action Tip:</strong> Consult a certified physician or clinical dietitian for a tailored, safe health strategy.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Limitations of BMI (Important Medical Context) -->
+  <section class="content-section">
+    <div class="content-wrapper">
+      <div class="feature-box">
+        <div class="feature-icon">⚠️</div>
+        <div class="feature-body">
+          <h3>Important: When is BMI Not Completely Accurate?</h3>
+          <p>While BMI is a fantastic initial benchmark, it does not directly distinguish between <strong>muscle mass</strong>, <strong>bone density</strong>, and <strong>body fat percentage</strong>:</p>
+          <div class="limitations-grid">
+            <div class="limitation-item">
+              <strong>🏋️ Athletes & Bodybuilders:</strong> Muscle weighs more by volume than fat. Highly fit athletes often register as "Overweight" or "Obese" despite having very low body fat.
+            </div>
+            <div class="limitation-item">
+              <strong>👵 Older Adults:</strong> Seniors naturally lose bone and muscle density (sarcopenia), meaning fat levels may be higher even if BMI appears normal.
+            </div>
+            <div class="limitation-item">
+              <strong>🤰 Pregnant & Nursing Mothers:</strong> Fluid retention and baby development skew BMI calculations. Specialized charts are recommended.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Interactive FAQs -->
+  <section class="content-section bg-alt" id="faqs">
+    <div class="content-wrapper">
+      <div class="section-title-wrap">
+        <span class="section-badge">Got Questions?</span>
+        <h2>Frequently Asked Questions</h2>
+        <p class="section-subtext">Find quick answers to common queries about BMI calculations and healthy weight management.</p>
+      </div>
+
+      <div class="accordion-container">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What is the healthiest BMI score?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>For most adults, a BMI between <strong>18.5 and 24.9</strong> is considered the healthy sweet spot. In this range, the statistical risk of developing chronic diseases (like stroke, diabetes, and heart ailments) is significantly minimized.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How often should I check my BMI?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Checking once every <strong>2 to 4 weeks</strong> is optimal. Daily weigh-ins fluctuate wildly due to water retention, sodium intake, and hydration, which does not reflect genuine fat changes.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is BMI calculation the same for men and women?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>The core mathematical formula is identical for adult men and women. However, women naturally carry a higher percentage of essential body fat than men at the same BMI level. Our advanced calculator factors gender into the estimated daily calorie (BMR) output.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can children and teenagers use this calculator?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>For individuals under 20 years old, BMI is calculated using the same formula but interpreted differently via <strong>BMI-for-age percentiles</strong> (comparing against growth charts from CDC or WHO) because young bodies develop at varying speeds.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What should I do if my BMI is high?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Don't panic! Small consistent changes compound over time. Start by eliminating sugary drinks, adopting 30 minutes of daily walking, eating whole fibrous vegetables, and speaking with a qualified nutritionist or doctor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-box">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v18M3 9l9-6 9 6M6 12l-3 6h6l-3-6zm12 0l-3 6h6l-3-6z"/></svg>
+          </div>
+          <span class="brand-name">BMI Calculator</span>
+        </div>
+        <p class="footer-desc">A free, modern health utility designed to empower your fitness goals with verified clinical standards.</p>
+      </div>
+
+      <div class="footer-disclaimer">
+        <strong>Medical Disclaimer:</strong> This application provides general wellness information and calculation estimates for educational purposes only. It is not intended as a substitute for professional medical advice, clinical diagnosis, or medical treatment.
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 BMI Calculator. Crafted with precision for health & wellness.</span>
+        <div class="footer-links">
+          <a href="#calculator-section">Back to Top ↑</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <!-- Sign In Modal Popup -->
   <div id="auth-modal" class="modal-overlay hidden">
