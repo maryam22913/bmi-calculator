@@ -1,4 +1,4 @@
-// Tab switching
+// --- Unit Tab Switching ---
 const metricTab = document.getElementById('metric-tab');
 const imperialTab = document.getElementById('imperial-tab');
 const metricInputs = document.getElementById('metric-inputs');
@@ -22,7 +22,7 @@ imperialTab.addEventListener('click', () => {
   metricInputs.classList.add('hidden');
 });
 
-// Gender selection styling
+// --- Gender Selection ---
 const genderOptions = document.querySelectorAll('.gender-option');
 genderOptions.forEach(option => {
   option.addEventListener('click', () => {
@@ -31,7 +31,7 @@ genderOptions.forEach(option => {
   });
 });
 
-// Form and calculation
+// --- Form & BMI Calculation ---
 const form = document.getElementById('bmi-form');
 const resetBtn = document.getElementById('reset-btn');
 const resultBox = document.getElementById('result-box');
@@ -145,3 +145,75 @@ resetBtn.addEventListener('click', () => {
   resultBox.classList.add('hidden');
   needleEl.style.left = '0%';
 });
+
+// --- Sign In Modal & Auth State ---
+const authModal = document.getElementById('auth-modal');
+const openSigninBtn = document.getElementById('open-signin-btn');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const authForm = document.getElementById('auth-form');
+const navAuth = document.getElementById('nav-auth');
+
+function updateAuthUI() {
+  const savedUser = localStorage.getItem('bmi_user');
+  if (savedUser) {
+    navAuth.innerHTML = `
+      <div class="user-profile">
+        <span class="user-badge">👤 ${savedUser}</span>
+        <button type="button" class="btn-logout" id="logout-btn">Log Out</button>
+      </div>
+    `;
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('bmi_user');
+        updateAuthUI();
+      });
+    }
+  } else {
+    navAuth.innerHTML = `
+      <button type="button" class="btn-signin" id="open-signin-btn">
+        <span>Sign In</span>
+      </button>
+    `;
+    const newOpenBtn = document.getElementById('open-signin-btn');
+    if (newOpenBtn) {
+      newOpenBtn.addEventListener('click', openModal);
+    }
+  }
+}
+
+function openModal() {
+  authModal.classList.remove('hidden');
+}
+
+function closeModal() {
+  authModal.classList.add('hidden');
+}
+
+if (openSigninBtn) {
+  openSigninBtn.addEventListener('click', openModal);
+}
+
+if (closeModalBtn) {
+  closeModalBtn.addEventListener('click', closeModal);
+}
+
+authModal.addEventListener('click', (e) => {
+  if (e.target === authModal) {
+    closeModal();
+  }
+});
+
+authForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const userName = document.getElementById('user-name').value.trim();
+  if (userName) {
+    localStorage.setItem('bmi_user', userName);
+    updateAuthUI();
+    closeModal();
+    authForm.reset();
+  }
+});
+
+// Initialize Auth state
+updateAuthUI();

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart BMI Calculator</title>
+  <title>BMI Calculator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,10 +15,25 @@
     <div class="circle circle-2"></div>
   </div>
 
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-icon">⚖️</span>
+        <span class="brand-name">BMI Calculator</span>
+      </div>
+      <div class="nav-auth" id="nav-auth">
+        <button type="button" class="btn-signin" id="open-signin-btn">
+          <span>Sign In</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
   <main class="container">
     <div class="calculator-card">
       <header class="header">
-        <div class="badge">⚖️ Health Tracker</div>
+        <div class="badge">🩺 Health & Fitness</div>
         <h1>BMI Calculator</h1>
         <p>Apna Body Mass Index (BMI) maloom karein aur healthy rahein!</p>
       </header>
@@ -136,6 +151,46 @@
       </div>
     </div>
   </main>
+
+  <!-- Sign In Modal Popup -->
+  <div id="auth-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button type="button" class="modal-close" id="close-modal-btn" aria-label="Close">&times;</button>
+      
+      <div class="modal-header">
+        <div class="modal-icon">🔐</div>
+        <h2>Sign In</h2>
+        <p>Apna account login karein taake aapka record save rahe</p>
+      </div>
+
+      <form id="auth-form">
+        <div class="input-field">
+          <label for="user-name">Your Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="user-name" placeholder="e.g. Maryam" required>
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label for="user-email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="user-email" placeholder="maryam@example.com" required>
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label for="user-password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="user-password" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">
+          <span>Sign In Karein</span>
+        </button>
+      </form>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
