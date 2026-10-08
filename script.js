@@ -1,6 +1,25 @@
 // --- State Variables ---
 let currentUnit = 'metric';
 let currentGender = 'male';
+let currentMode = 'adult'; // 'adult' or 'child'
+
+// DOM Elements: Mode Switcher
+const modeAdultBtn = document.getElementById('mode-adult-btn');
+const modeChildBtn = document.getElementById('mode-child-btn');
+const calcPanelTitle = document.getElementById('calc-panel-title');
+const ageInput = document.getElementById('age-input');
+const ageBadge = document.getElementById('age-badge');
+const ageLabel = document.getElementById('age-label');
+const textMale = document.getElementById('text-male');
+const textFemale = document.getElementById('text-female');
+const iconMale = document.getElementById('icon-male');
+const iconFemale = document.getElementById('icon-female');
+const maleCard = document.getElementById('gender-male-label');
+const femaleCard = document.getElementById('gender-female-label');
+const childPercentileBadge = document.getElementById('child-percentile-badge');
+const tableCardTitle = document.getElementById('table-card-title');
+const bmiTableBody = document.getElementById('bmi-table-body');
+const scoreHeadingLabel = document.getElementById('score-heading-label');
 
 // DOM Elements: Tabs & Groups
 const tabMetric = document.getElementById('tab-metric');
@@ -26,12 +45,6 @@ const weightLbsInput = document.getElementById('weight-lbs');
 const weightLbsSlider = document.getElementById('weight-lbs-slider');
 const weightLbsDisplay = document.getElementById('weight-lbs-display');
 
-// Common Inputs
-const ageInput = document.getElementById('age-input');
-const ageBadge = document.getElementById('age-badge');
-const maleCard = document.getElementById('gender-male-label');
-const femaleCard = document.getElementById('gender-female-label');
-
 // Results Elements
 const bmiScoreEl = document.getElementById('bmi-score');
 const statusPill = document.getElementById('status-pill');
@@ -39,13 +52,15 @@ const gaugeMarker = document.getElementById('gauge-marker');
 const markerBubble = document.getElementById('marker-bubble');
 
 const idealRangeVal = document.getElementById('ideal-range-val');
+const idealRangeExplanation = document.getElementById('ideal-range-explanation');
 const weightDiffVal = document.getElementById('weight-diff-val');
 const weightDiffSub = document.getElementById('weight-diff-sub');
 const bmrVal = document.getElementById('bmr-val');
 const waterVal = document.getElementById('water-val');
+const ponderalVal = document.getElementById('ponderal-val');
 
-// WHO Table Rows
-const tableRows = {
+// WHO Table Rows (dynamic)
+let tableRows = {
   under: document.getElementById('row-under'),
   normal: document.getElementById('row-normal'),
   over: document.getElementById('row-over'),
@@ -58,6 +73,156 @@ const saveHistoryBtn = document.getElementById('save-history-btn');
 const saveFeedback = document.getElementById('save-feedback');
 const historySection = document.getElementById('history-section');
 const historyItems = document.getElementById('history-items');
+
+// --- Mode Switcher (Adult vs Child/Teen) ---
+modeAdultBtn.addEventListener('click', () => {
+  if (currentMode === 'adult') return;
+  currentMode = 'adult';
+  modeAdultBtn.classList.add('active');
+  modeChildBtn.classList.remove('active');
+
+  calcPanelTitle.textContent = 'Adult Body Parameters (kg / cm)';
+  scoreHeadingLabel.textContent = 'YOUR BODY MASS INDEX (BMI)';
+  ageLabel.textContent = 'Age (Years)';
+  ageInput.min = '20';
+  ageInput.max = '120';
+  ageInput.value = '25';
+  ageBadge.textContent = 'Adult (20+)';
+
+  textMale.textContent = 'Male';
+  textFemale.textContent = 'Female';
+  iconMale.textContent = '👨';
+  iconFemale.textContent = '👩';
+
+  childPercentileBadge.classList.add('hidden');
+  tableCardTitle.textContent = 'WHO BMI Classification Standard';
+
+  // Restore Adult WHO Table
+  renderAdultTable();
+
+  // Reset to adult defaults if child values were present
+  if (parseFloat(heightCmInput.value) < 140) {
+    heightCmInput.value = 170;
+    heightCmSlider.value = 170;
+    heightCmDisplay.textContent = '170 cm';
+  }
+  if (parseFloat(weightKgInput.value) < 45) {
+    weightKgInput.value = 68;
+    weightKgSlider.value = 68;
+    weightKgDisplay.textContent = '68 kg';
+  }
+
+  calculateBMI();
+});
+
+modeChildBtn.addEventListener('click', () => {
+  if (currentMode === 'child') return;
+  currentMode = 'child';
+  modeChildBtn.classList.add('active');
+  modeAdultBtn.classList.remove('active');
+
+  calcPanelTitle.textContent = 'Child & Teen Parameters (Ages 2–19)';
+  scoreHeadingLabel.textContent = 'PEDIATRIC BMI & PERCENTILE';
+  ageLabel.textContent = 'Age (2 to 19 Years)';
+  ageInput.min = '2';
+  ageInput.max = '19';
+  ageInput.value = '12';
+  ageBadge.textContent = 'Child / Teen (2–19)';
+
+  textMale.textContent = 'Boy (Larka)';
+  textFemale.textContent = 'Girl (Larki)';
+  iconMale.textContent = '👦';
+  iconFemale.textContent = '👧';
+
+  childPercentileBadge.classList.remove('hidden');
+  tableCardTitle.textContent = 'CDC / WHO Pediatric Growth Percentiles';
+
+  // Render Pediatric Table
+  renderChildTable();
+
+  // Adjust inputs for typical 12-year-old
+  heightCmInput.value = 148;
+  heightCmSlider.value = 148;
+  heightCmDisplay.textContent = '148 cm';
+
+  weightKgInput.value = 42;
+  weightKgSlider.value = 42;
+  weightKgDisplay.textContent = '42 kg';
+
+  calculateBMI();
+});
+
+function renderAdultTable() {
+  bmiTableBody.innerHTML = `
+    <tr id="row-under">
+      <td><span class="dot dot-under"></span> Underweight</td>
+      <td>&lt; 18.5</td>
+      <td>Malnutrition / low immunity</td>
+    </tr>
+    <tr id="row-normal" class="active-row">
+      <td><span class="dot dot-normal"></span> Normal Weight</td>
+      <td>18.5 – 24.9</td>
+      <td>Lowest health risks</td>
+    </tr>
+    <tr id="row-over">
+      <td><span class="dot dot-over"></span> Overweight</td>
+      <td>25.0 – 29.9</td>
+      <td>Moderate heart/joint risk</td>
+    </tr>
+    <tr id="row-obese1">
+      <td><span class="dot dot-obese1"></span> Obesity Class I</td>
+      <td>30.0 – 34.9</td>
+      <td>High risk of diabetes & BP</td>
+    </tr>
+    <tr id="row-obese2">
+      <td><span class="dot dot-obese2"></span> Severe Obesity</td>
+      <td>≥ 35.0</td>
+      <td>Extremely high health risk</td>
+    </tr>
+  `;
+  refreshTableRowRefs();
+}
+
+function renderChildTable() {
+  bmiTableBody.innerHTML = `
+    <tr id="row-under">
+      <td><span class="dot dot-under"></span> Underweight</td>
+      <td>&lt; 5th Percentile</td>
+      <td>Possible growth or nutrient deficiency</td>
+    </tr>
+    <tr id="row-normal" class="active-row">
+      <td><span class="dot dot-normal"></span> Healthy Weight</td>
+      <td>5th to 84th Percentile</td>
+      <td>Optimal growth & physical development</td>
+    </tr>
+    <tr id="row-over">
+      <td><span class="dot dot-over"></span> Overweight</td>
+      <td>85th to 94th Percentile</td>
+      <td>Elevated risk of adolescent weight issues</td>
+    </tr>
+    <tr id="row-obese1">
+      <td><span class="dot dot-obese1"></span> Obesity</td>
+      <td>≥ 95th Percentile</td>
+      <td>Pediatrician consultation recommended</td>
+    </tr>
+    <tr id="row-obese2">
+      <td><span class="dot dot-obese2"></span> Severe Obesity</td>
+      <td>≥ 99th Percentile</td>
+      <td>High clinical monitoring required</td>
+    </tr>
+  `;
+  refreshTableRowRefs();
+}
+
+function refreshTableRowRefs() {
+  tableRows = {
+    under: document.getElementById('row-under'),
+    normal: document.getElementById('row-normal'),
+    over: document.getElementById('row-over'),
+    obese1: document.getElementById('row-obese1'),
+    obese2: document.getElementById('row-obese2')
+  };
+}
 
 // --- Unit Switching ---
 tabMetric.addEventListener('click', () => {
@@ -164,12 +329,16 @@ heightInInput.addEventListener('input', calculateBMI);
 // --- Age & Gender Handlers ---
 ageInput.addEventListener('input', () => {
   const age = parseInt(ageInput.value) || 25;
-  if (age < 20) {
-    ageBadge.textContent = 'Teen/Youth (< 20)';
-  } else if (age >= 65) {
-    ageBadge.textContent = 'Senior (65+)';
+  if (currentMode === 'child') {
+    ageBadge.textContent = `Ages ${age} Yrs (Child/Teen)`;
   } else {
-    ageBadge.textContent = 'Adult (20+)';
+    if (age < 20) {
+      ageBadge.textContent = 'Youth (< 20)';
+    } else if (age >= 65) {
+      ageBadge.textContent = 'Senior (65+)';
+    } else {
+      ageBadge.textContent = 'Adult (20+)';
+    }
   }
   calculateBMI();
 });
@@ -188,7 +357,26 @@ femaleCard.addEventListener('click', () => {
   calculateBMI();
 });
 
-// --- Calculation Core (Google Style) ---
+// --- Pediatric Percentile Estimation Formula (CDC Reference Curve) ---
+function estimateChildPercentile(bmi, age, gender) {
+  // Approximate CDC Median 50th percentile BMI by age for boys and girls
+  const medianBoy = [16.5, 16.5, 15.8, 15.3, 15.2, 15.3, 15.5, 15.8, 16.2, 16.6, 17.2, 17.8, 18.5, 19.2, 19.9, 20.6, 21.4, 22.0, 22.5, 22.8];
+  const medianGirl = [16.2, 16.2, 15.4, 15.1, 15.0, 15.2, 15.4, 15.8, 16.3, 17.0, 17.7, 18.5, 19.3, 20.1, 20.8, 21.3, 21.7, 22.0, 22.2, 22.5];
+
+  const index = Math.min(Math.max(Math.round(age), 2), 19);
+  const m = gender === 'male' ? medianBoy[index] : medianGirl[index];
+  const sd = 2.2; // average standard deviation across pediatric cohorts
+
+  // Z-score calculation
+  const z = (bmi - m) / sd;
+
+  // Cumulative standard normal distribution approximation
+  const p = 1 / (1 + Math.exp(-1.7 * z));
+  const percentile = Math.min(Math.max(Math.round(p * 100), 1), 99);
+  return percentile;
+}
+
+// --- Calculation Core ---
 function calculateBMI() {
   let heightM = 0;
   let weightKg = 0;
@@ -210,42 +398,71 @@ function calculateBMI() {
 
   const bmi = weightKg / (heightM * heightM);
   const formattedBMI = parseFloat(bmi.toFixed(1));
+  const age = parseInt(ageInput.value) || 25;
 
   // 1. Update BMI Number
   bmiScoreEl.textContent = formattedBMI;
   markerBubble.textContent = formattedBMI;
 
-  // 2. Determine Category & Status Styling
+  // 2. Determine Category & Status Styling (Adult vs Child)
   let statusClass = 'status-normal';
   let categoryName = 'Normal Weight';
   let activeRowKey = 'normal';
 
-  if (bmi < 18.5) {
-    statusClass = 'status-under';
-    categoryName = 'Underweight';
-    activeRowKey = 'under';
-  } else if (bmi >= 18.5 && bmi <= 24.9) {
-    statusClass = 'status-normal';
-    categoryName = 'Normal Weight';
-    activeRowKey = 'normal';
-  } else if (bmi >= 25.0 && bmi <= 29.9) {
-    statusClass = 'status-over';
-    categoryName = 'Overweight';
-    activeRowKey = 'over';
-  } else if (bmi >= 30.0 && bmi <= 34.9) {
-    statusClass = 'status-obese1';
-    categoryName = 'Obesity Class I';
-    activeRowKey = 'obese1';
+  if (currentMode === 'child') {
+    const percentile = estimateChildPercentile(formattedBMI, age, currentGender);
+    childPercentileBadge.textContent = `${percentile}th Percentile (for ${age} yr old ${currentGender === 'male' ? 'boy' : 'girl'})`;
+
+    if (percentile < 5) {
+      statusClass = 'status-under';
+      categoryName = 'Underweight (<5th %ile)';
+      activeRowKey = 'under';
+    } else if (percentile >= 5 && percentile < 85) {
+      statusClass = 'status-normal';
+      categoryName = 'Healthy Weight (5th–84th %ile)';
+      activeRowKey = 'normal';
+    } else if (percentile >= 85 && percentile < 95) {
+      statusClass = 'status-over';
+      categoryName = 'Overweight (85th–94th %ile)';
+      activeRowKey = 'over';
+    } else if (percentile >= 95 && percentile < 99) {
+      statusClass = 'status-obese1';
+      categoryName = 'Obese (≥95th %ile)';
+      activeRowKey = 'obese1';
+    } else {
+      statusClass = 'status-obese2';
+      categoryName = 'Severe Obesity (≥99th %ile)';
+      activeRowKey = 'obese2';
+    }
   } else {
-    statusClass = 'status-obese2';
-    categoryName = 'Obesity Class II+';
-    activeRowKey = 'obese2';
+    // Adult standard
+    if (bmi < 18.5) {
+      statusClass = 'status-under';
+      categoryName = 'Underweight';
+      activeRowKey = 'under';
+    } else if (bmi >= 18.5 && bmi <= 24.9) {
+      statusClass = 'status-normal';
+      categoryName = 'Normal Weight';
+      activeRowKey = 'normal';
+    } else if (bmi >= 25.0 && bmi <= 29.9) {
+      statusClass = 'status-over';
+      categoryName = 'Overweight';
+      activeRowKey = 'over';
+    } else if (bmi >= 30.0 && bmi <= 34.9) {
+      statusClass = 'status-obese1';
+      categoryName = 'Obesity Class I';
+      activeRowKey = 'obese1';
+    } else {
+      statusClass = 'status-obese2';
+      categoryName = 'Severe Obesity';
+      activeRowKey = 'obese2';
+    }
   }
 
   statusPill.className = `status-pill ${statusClass}`;
   statusPill.textContent = categoryName;
 
-  // 3. Highlight WHO Table Row
+  // 3. Highlight Table Row
   Object.keys(tableRows).forEach(key => {
     if (tableRows[key]) {
       tableRows[key].classList.remove('active-row');
@@ -255,8 +472,7 @@ function calculateBMI() {
     tableRows[activeRowKey].classList.add('active-row');
   }
 
-  // 4. Update Gauge Marker Position (Google style smooth positioning)
-  // Scale mapping: <18.5 (0%-23%), 18.5-25 (23%-50%), 25-30 (50%-75%), 30-35 (75%-88%), >35 (88%-98%)
+  // 4. Update Gauge Marker Position
   let markerPercent = 35;
   if (bmi < 18.5) {
     markerPercent = Math.max(5, (bmi / 18.5) * 22);
@@ -271,42 +487,35 @@ function calculateBMI() {
   }
   gaugeMarker.style.left = `${markerPercent}%`;
 
-  // 5. Healthy Weight Range calculation
+  // 5. Healthy Weight Range Spotlight calculation in kg
   const minHealthyKg = (18.5 * heightM * heightM).toFixed(1);
   const maxHealthyKg = (24.9 * heightM * heightM).toFixed(1);
 
   if (currentUnit === 'metric') {
     idealRangeVal.textContent = `${minHealthyKg} kg – ${maxHealthyKg} kg`;
+    idealRangeExplanation.textContent = `Aapke qad (${Math.round(heightM * 100)} cm) ke hisab se sehat mand wazan ${minHealthyKg} kg se ${maxHealthyKg} kg ke darmian hona chahiye.`;
   } else {
     const minHealthyLbs = Math.round(minHealthyKg * 2.20462);
     const maxHealthyLbs = Math.round(maxHealthyKg * 2.20462);
-    idealRangeVal.textContent = `${minHealthyLbs} lbs – ${maxHealthyLbs} lbs`;
+    idealRangeVal.textContent = `${minHealthyKg} kg (${minHealthyLbs} lbs) – ${maxHealthyKg} kg (${maxHealthyLbs} lbs)`;
+    idealRangeExplanation.textContent = `For your height, the healthy range is ${minHealthyKg} kg – ${maxHealthyKg} kg.`;
   }
 
   // 6. Weight Target Difference
   if (bmi < 18.5) {
     const diff = (minHealthyKg - weightKg).toFixed(1);
-    if (currentUnit === 'metric') {
-      weightDiffVal.textContent = `+${diff} kg required`;
-    } else {
-      weightDiffVal.textContent = `+${Math.round(diff * 2.20462)} lbs required`;
-    }
+    weightDiffVal.textContent = `+${diff} kg required`;
     weightDiffSub.textContent = 'Gain weight to reach normal';
   } else if (bmi > 24.9) {
     const diff = (weightKg - maxHealthyKg).toFixed(1);
-    if (currentUnit === 'metric') {
-      weightDiffVal.textContent = `-${diff} kg to lose`;
-    } else {
-      weightDiffVal.textContent = `-${Math.round(diff * 2.20462)} lbs to lose`;
-    }
+    weightDiffVal.textContent = `-${diff} kg to lose`;
     weightDiffSub.textContent = 'Lose weight to reach normal';
   } else {
     weightDiffVal.textContent = 'Within healthy range';
-    weightDiffSub.textContent = 'Great balance!';
+    weightDiffSub.textContent = 'Bilkull perfect balance!';
   }
 
-  // 7. Estimated Daily Calories (BMR Mifflin-St Jeor * 1.375 Light Activity)
-  const age = parseInt(ageInput.value) || 25;
+  // 7. Estimated Daily Calories (BMR Mifflin-St Jeor)
   const heightCm = heightM * 100;
   let bmr = 0;
   if (currentGender === 'male') {
@@ -320,30 +529,37 @@ function calculateBMI() {
   // 8. Water intake estimate (35ml per kg)
   const waterLiters = (weightKg * 0.035).toFixed(1);
   waterVal.textContent = `${waterLiters} Liters`;
+
+  // 9. Ponderal Index (Corpulence Index = kg / m^3)
+  const ponderal = (weightKg / (heightM * heightM * heightM)).toFixed(1);
+  ponderalVal.textContent = `${ponderal} kg/m³`;
 }
 
 // Reset button
 document.getElementById('reset-all-btn').addEventListener('click', () => {
-  heightCmInput.value = 170;
-  heightCmSlider.value = 170;
-  heightCmDisplay.textContent = '170 cm';
+  if (currentMode === 'child') {
+    heightCmInput.value = 148;
+    heightCmSlider.value = 148;
+    heightCmDisplay.textContent = '148 cm';
 
-  weightKgInput.value = 68;
-  weightKgSlider.value = 68;
-  weightKgDisplay.textContent = '68 kg';
+    weightKgInput.value = 42;
+    weightKgSlider.value = 42;
+    weightKgDisplay.textContent = '42 kg';
 
-  heightFtInput.value = 5;
-  heightInInput.value = 7;
-  weightLbsInput.value = 150;
-  weightLbsSlider.value = 150;
-  weightLbsDisplay.textContent = '150 lbs';
+    ageInput.value = 12;
+    ageBadge.textContent = 'Child / Teen (2–19)';
+  } else {
+    heightCmInput.value = 170;
+    heightCmSlider.value = 170;
+    heightCmDisplay.textContent = '170 cm';
 
-  ageInput.value = 25;
-  ageBadge.textContent = 'Adult (20+)';
+    weightKgInput.value = 68;
+    weightKgSlider.value = 68;
+    weightKgDisplay.textContent = '68 kg';
 
-  currentGender = 'male';
-  maleCard.classList.add('active');
-  femaleCard.classList.remove('active');
+    ageInput.value = 25;
+    ageBadge.textContent = 'Adult (20+)';
+  }
 
   calculateBMI();
 });
@@ -361,7 +577,7 @@ function loadHistory() {
     historySection.classList.remove('hidden');
     historyItems.innerHTML = history.slice(0, 5).map(item => `
       <div class="history-item">
-        <span><strong>BMI: ${item.bmi}</strong> (${item.category})</span>
+        <span><strong>BMI: ${item.bmi}</strong> (${item.category} - ${item.mode || 'Adult'})</span>
         <span style="color: var(--text-muted);">${item.date}</span>
       </div>
     `).join('');
@@ -373,10 +589,11 @@ function loadHistory() {
 saveHistoryBtn.addEventListener('click', () => {
   const bmi = bmiScoreEl.textContent;
   const category = statusPill.textContent;
+  const mode = currentMode === 'child' ? 'Child/Teen' : 'Adult';
   const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
   const history = JSON.parse(localStorage.getItem('bmi_history') || '[]');
-  history.unshift({ bmi, category, date });
+  history.unshift({ bmi, category, mode, date });
   localStorage.setItem('bmi_history', JSON.stringify(history.slice(0, 10)));
 
   saveFeedback.classList.remove('hidden');
@@ -447,11 +664,6 @@ authForm.addEventListener('submit', (e) => {
   }
 });
 
-// --- Initial Launch ---
-updateAuthUI();
-loadHistory();
-calculateBMI();
-
 // --- Interactive FAQ Accordion ---
 const faqItems = document.querySelectorAll('.faq-item');
 faqItems.forEach(item => {
@@ -459,12 +671,15 @@ faqItems.forEach(item => {
   if (questionBtn) {
     questionBtn.addEventListener('click', () => {
       const isActive = item.classList.contains('active');
-      // Close other accordions
       faqItems.forEach(otherItem => otherItem.classList.remove('active'));
-      // Toggle current accordion
       if (!isActive) {
         item.classList.add('active');
       }
     });
   }
 });
+
+// --- Initial Launch ---
+updateAuthUI();
+loadHistory();
+calculateBMI();

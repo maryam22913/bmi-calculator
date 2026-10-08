@@ -11,12 +11,12 @@
   --border-color: #dadce0;
   --border-light: #f1f3f4;
   
-  /* Health Colors */
-  --c-underweight: #1a73e8; /* Blue */
-  --c-normal: #1e8e3e;      /* Google Green */
-  --c-overweight: #f9ab00;  /* Google Amber */
-  --c-obese1: #e37400;      /* Deep Orange */
-  --c-obese2: #d93025;      /* Google Red */
+  /* Health Zone Colors */
+  --c-underweight: #0284c7; /* Vibrant Blue */
+  --c-normal: #10b981;      /* Emerald Green */
+  --c-overweight: #f59e0b;  /* Amber / Yellow */
+  --c-obese1: #f97316;      /* Orange */
+  --c-obese2: #ef4444;      /* Red */
 
   --radius-lg: 16px;
   --radius-md: 10px;
@@ -114,7 +114,7 @@ body {
   color: var(--primary);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .nav-links {
     display: none;
   }
@@ -170,7 +170,7 @@ body {
 }
 
 .hero-content {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
 }
 
@@ -197,6 +197,41 @@ body {
   color: var(--text-secondary);
   font-size: 16px;
   line-height: 1.6;
+}
+
+/* Mode Switcher (Adult vs Child/Teen) */
+.mode-switcher-container {
+  display: inline-flex;
+  background: #e8eaed;
+  padding: 5px;
+  border-radius: 30px;
+  margin-top: 24px;
+  gap: 4px;
+}
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 25px;
+  border: none;
+  background: transparent;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mode-tab.active {
+  background: #ffffff;
+  color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.mode-icon {
+  font-size: 16px;
 }
 
 /* Calculator Layout */
@@ -238,7 +273,7 @@ body {
 }
 
 .panel-header h2 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   color: #202124;
 }
@@ -484,7 +519,7 @@ body {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 24px 20px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .score-meta {
@@ -529,11 +564,63 @@ body {
   color: #fff;
 }
 
+.percentile-text-badge {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 12px;
+}
+
 .status-under { background: var(--c-underweight); }
 .status-normal { background: var(--c-normal); }
 .status-over { background: var(--c-overweight); }
 .status-obese1 { background: var(--c-obese1); }
 .status-obese2 { background: var(--c-obese2); }
+
+/* SPOTLIGHT: Healthy Weight Range Banner */
+.healthy-spotlight-card {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1.5px solid #a7f3d0;
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.spotlight-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.spotlight-icon {
+  font-size: 30px;
+}
+
+.spotlight-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #065f46;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spotlight-numbers {
+  font-size: 24px;
+  font-weight: 800;
+  color: #047857;
+  letter-spacing: -0.3px;
+}
+
+.spotlight-desc {
+  font-size: 13px;
+  color: #065f46;
+  line-height: 1.4;
+}
 
 /* Google-Style Segmented Bar */
 .gauge-wrapper {
@@ -748,8 +835,178 @@ body {
 }
 
 /* ==============================================
-   CONTENT / EDITORIAL SECTIONS STYLING
+   COLOURED BMI ZONES CHART
    ============================================== */
+.color-zones-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .color-zones-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .color-zones-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.zone-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.zone-blue { border-color: var(--c-underweight); }
+.zone-blue .zone-badge { background: #e0f2fe; color: var(--c-underweight); }
+.zone-blue .zone-score { color: var(--c-underweight); }
+
+.zone-green { border-color: var(--c-normal); background: #f0fdf4; }
+.zone-green .zone-badge { background: #dcfce7; color: var(--c-normal); font-weight: 800; }
+.zone-green .zone-score { color: var(--c-normal); }
+
+.zone-amber { border-color: var(--c-overweight); }
+.zone-amber .zone-badge { background: #fef3c7; color: #b45309; }
+.zone-amber .zone-score { color: #b45309; }
+
+.zone-orange { border-color: var(--c-obese1); }
+.zone-orange .zone-badge { background: #ffedd5; color: var(--c-obese1); }
+.zone-orange .zone-score { color: var(--c-obese1); }
+
+.zone-red { border-color: var(--c-obese2); }
+.zone-red .zone-badge { background: #fee2e2; color: var(--c-obese2); }
+.zone-red .zone-score { color: var(--c-obese2); }
+
+.zone-badge {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.zone-score {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.zone-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.zone-card p {
+  font-size: 12.5px;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.zone-footer {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px dashed #e5e7eb;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ==============================================
+   HEIGHT TO HEALTHY WEIGHT TABLE IN KG
+   ============================================== */
+.reference-table-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  overflow-x: auto;
+}
+
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left;
+}
+
+.ref-table th, .ref-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ref-table th {
+  background: #f8fafc;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.ref-table tr.highlight-row {
+  background: #f0fdf4;
+}
+
+.badge-kg {
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13.5px;
+}
+
+/* ==============================================
+   CHILDREN & TEEN GUIDE
+   ============================================== */
+.percentile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.p-item {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  border-left: 4px solid var(--primary);
+}
+
+.p-under { background: #f0f9ff; border-left-color: var(--c-underweight); }
+.p-normal { background: #f0fdf4; border-left-color: var(--c-normal); }
+.p-over { background: #fffbeb; border-left-color: var(--c-overweight); }
+.p-obese { background: #fef2f2; border-left-color: var(--c-obese2); }
+
+.parenting-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+  list-style: none;
+}
+
+.parenting-tips li {
+  font-size: 13.5px;
+  color: #374151;
+  line-height: 1.5;
+  background: #f8fafc;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+}
+
+/* Content Sections */
 .content-section {
   padding: 60px 20px;
 }
@@ -768,7 +1025,7 @@ body {
 .section-title-wrap {
   text-align: center;
   max-width: 680px;
-  margin: 0 auto 40px;
+  margin: 0 auto 36px;
 }
 
 .section-badge {
@@ -786,7 +1043,7 @@ body {
   font-size: 28px;
   font-weight: 800;
   color: #202124;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   letter-spacing: -0.5px;
 }
 
@@ -841,161 +1098,7 @@ body {
   line-height: 1.6;
 }
 
-.formula-box {
-  background: #f8fafc;
-  border: 1px solid var(--border-color);
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  margin-top: 6px;
-}
-
-.formula-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
-}
-
-.formula-box code {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--primary);
-  font-family: monospace;
-}
-
-/* Category Grid 4 */
-.cards-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 1024px) {
-  .cards-grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .cards-grid-4 {
-    grid-template-columns: 1fr;
-  }
-}
-
-.category-card {
-  background: var(--surface);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border-top: 4px solid var(--primary);
-}
-
-.card-under { border-top-color: var(--c-underweight); }
-.card-normal { border-top-color: var(--c-normal); }
-.card-over { border-top-color: var(--c-overweight); }
-.card-obese { border-top-color: var(--c-obese2); }
-
-.cat-header {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.cat-tag {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-secondary);
-}
-
-.cat-header h4 {
-  font-size: 18px;
-  font-weight: 800;
-  color: #202124;
-}
-
-.cat-desc {
-  font-size: 13.5px;
-  color: #4b5563;
-  line-height: 1.5;
-}
-
-.cat-points {
-  font-size: 13px;
-  color: #374151;
-}
-
-.cat-points ul {
-  margin-left: 18px;
-  margin-top: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.cat-tip {
-  margin-top: auto;
-  background: #f8fafc;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 12.5px;
-  color: #1f2937;
-  line-height: 1.4;
-}
-
-/* Limitations Feature Box */
-.feature-box {
-  background: #fff8e1;
-  border: 1.5px solid #ffe082;
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  display: flex;
-  gap: 20px;
-}
-
-.feature-icon {
-  font-size: 32px;
-}
-
-.feature-body h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #795548;
-  margin-bottom: 8px;
-}
-
-.feature-body p {
-  font-size: 14.5px;
-  color: #5d4037;
-  line-height: 1.6;
-  margin-bottom: 14px;
-}
-
-.limitations-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 800px) {
-  .limitations-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.limitation-item {
-  background: rgba(255, 255, 255, 0.7);
-  padding: 14px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  color: #4e342e;
-  line-height: 1.5;
-}
-
-/* FAQs Accordion */
+/* Accordion */
 .accordion-container {
   max-width: 760px;
   margin: 0 auto;
@@ -1010,10 +1113,6 @@ body {
   border-radius: var(--radius-md);
   overflow: hidden;
   transition: box-shadow 0.2s;
-}
-
-.faq-item:hover {
-  box-shadow: var(--shadow-sm);
 }
 
 .faq-question {

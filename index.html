@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BMI Calculator - Smart Health & Fitness Guide</title>
+  <title>BMI Calculator - Adult, Child & Teen Health Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,13 +19,14 @@
         </div>
         <div class="brand-text">
           <span class="brand-name">BMI Calculator</span>
-          <span class="brand-tag">Professional Health & Wellness Tool</span>
+          <span class="brand-tag">Adults, Children & Teens (kg / cm)</span>
         </div>
       </div>
       <div class="nav-links">
         <a href="#calculator-section" class="nav-link">Calculator</a>
-        <a href="#about-bmi" class="nav-link">What is BMI?</a>
-        <a href="#bmi-categories" class="nav-link">Categories</a>
+        <a href="#bmi-zones-chart" class="nav-link">Coloured Zones</a>
+        <a href="#healthy-weight-chart" class="nav-link">Kg Weight Chart</a>
+        <a href="#child-teen-guide" class="nav-link">Kids & Teens</a>
         <a href="#faqs" class="nav-link">FAQs</a>
       </div>
       <div class="nav-auth" id="nav-auth">
@@ -39,9 +40,21 @@
   <!-- Hero Header -->
   <header class="hero-header">
     <div class="hero-content">
-      <span class="hero-badge">✨ Evidence-Based Health Metrics</span>
-      <h1>Smart Body Mass Index (BMI) Calculator</h1>
-      <p>Check your body mass index, understand your ideal weight range, and take charge of your wellness journey today.</p>
+      <span class="hero-badge">⚖️ Smart Health & Growth Tracker</span>
+      <h1>BMI Calculator & Coloured Zones Chart</h1>
+      <p>Instant BMI calculation in <strong>kg & cm</strong>, healthy weight targets, and specialized growth percentiles for <strong>Children & Teens (Ages 2–19)</strong>.</p>
+      
+      <!-- Calculator Mode Switcher: Adult vs Child/Teen -->
+      <div class="mode-switcher-container">
+        <button type="button" class="mode-tab active" id="mode-adult-btn">
+          <span class="mode-icon">🧑</span>
+          <span>Adults (20+ Years)</span>
+        </button>
+        <button type="button" class="mode-tab" id="mode-child-btn">
+          <span class="mode-icon">🧒</span>
+          <span>Children & Teens (2–19 Years)</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -52,35 +65,35 @@
       <!-- Left Column: Inputs Form -->
       <section class="calc-panel card">
         <div class="panel-header">
-          <h2>Body Parameters</h2>
+          <h2 id="calc-panel-title">Adult Body Parameters (kg / cm)</h2>
           <div class="unit-toggle-pill">
             <button type="button" class="pill-btn active" id="tab-metric">Metric (kg, cm)</button>
-            <button type="button" class="pill-btn" id="tab-imperial">US / Imperial (lbs, ft)</button>
+            <button type="button" class="pill-btn" id="tab-imperial">Imperial (lbs, ft)</button>
           </div>
         </div>
 
         <form id="bmi-form">
           <!-- Gender -->
           <div class="form-group">
-            <label class="group-title">Gender</label>
+            <label class="group-title" id="gender-label">Gender</label>
             <div class="gender-grid">
               <label class="gender-card active" id="gender-male-label">
                 <input type="radio" name="gender" value="male" checked>
-                <span class="gender-icon">👨</span>
-                <span class="gender-text">Male</span>
+                <span class="gender-icon" id="icon-male">👨</span>
+                <span class="gender-text" id="text-male">Male</span>
               </label>
               <label class="gender-card" id="gender-female-label">
                 <input type="radio" name="gender" value="female">
-                <span class="gender-icon">👩</span>
-                <span class="gender-text">Female</span>
+                <span class="gender-icon" id="icon-female">👩</span>
+                <span class="gender-text" id="text-female">Female</span>
               </label>
             </div>
           </div>
 
-          <!-- Age -->
+          <!-- Age Input -->
           <div class="form-group">
             <div class="label-row">
-              <label for="age-input" class="group-title">Age (Ages 2 - 120)</label>
+              <label for="age-input" class="group-title" id="age-label">Age</label>
               <span class="helper-text" id="age-badge">Adult (20+)</span>
             </div>
             <div class="input-with-stepper">
@@ -92,13 +105,13 @@
           <!-- Height Section -->
           <div class="form-group" id="height-metric-group">
             <div class="label-row">
-              <label for="height-cm" class="group-title">Height</label>
+              <label for="height-cm" class="group-title">Height (cm)</label>
               <span class="value-badge" id="height-cm-display">170 cm</span>
             </div>
             <div class="slider-input-combo">
-              <input type="range" id="height-cm-slider" min="90" max="230" value="170" class="custom-slider">
+              <input type="range" id="height-cm-slider" min="60" max="230" value="170" class="custom-slider">
               <div class="number-input-wrap">
-                <input type="number" id="height-cm" value="170" min="90" max="230" step="0.5">
+                <input type="number" id="height-cm" value="170" min="50" max="240" step="0.5">
                 <span class="input-unit">cm</span>
               </div>
             </div>
@@ -118,16 +131,16 @@
             </div>
           </div>
 
-          <!-- Weight Section -->
+          <!-- Weight Section (Primary kg) -->
           <div class="form-group" id="weight-metric-group">
             <div class="label-row">
-              <label for="weight-kg" class="group-title">Weight</label>
+              <label for="weight-kg" class="group-title">Weight (kg)</label>
               <span class="value-badge" id="weight-kg-display">68 kg</span>
             </div>
             <div class="slider-input-combo">
-              <input type="range" id="weight-kg-slider" min="30" max="180" value="68" step="0.5" class="custom-slider">
+              <input type="range" id="weight-kg-slider" min="10" max="180" value="68" step="0.5" class="custom-slider">
               <div class="number-input-wrap">
-                <input type="number" id="weight-kg" value="68" min="20" max="250" step="0.1">
+                <input type="number" id="weight-kg" value="68" min="5" max="250" step="0.1">
                 <span class="input-unit">kg</span>
               </div>
             </div>
@@ -135,13 +148,13 @@
 
           <div class="form-group hidden" id="weight-imperial-group">
             <div class="label-row">
-              <label for="weight-lbs" class="group-title">Weight</label>
+              <label for="weight-lbs" class="group-title">Weight (lbs)</label>
               <span class="value-badge" id="weight-lbs-display">150 lbs</span>
             </div>
             <div class="slider-input-combo">
-              <input type="range" id="weight-lbs-slider" min="65" max="400" value="150" step="1" class="custom-slider">
+              <input type="range" id="weight-lbs-slider" min="22" max="400" value="150" step="1" class="custom-slider">
               <div class="number-input-wrap">
-                <input type="number" id="weight-lbs" value="150" min="40" max="500" step="0.5">
+                <input type="number" id="weight-lbs" value="150" min="15" max="500" step="0.5">
                 <span class="input-unit">lbs</span>
               </div>
             </div>
@@ -160,35 +173,36 @@
       <!-- Right Column: Interactive Results -->
       <section class="results-panel card">
         <div class="panel-header">
-          <h2>BMI Results & Insights</h2>
+          <h2 id="results-panel-title">BMI Results & Healthy Analysis</h2>
           <span class="live-pill">● Real-time analysis</span>
         </div>
 
-        <!-- Big Score Card -->
+        <!-- Big Score Card with Healthy Weight Spotlight -->
         <div class="score-card">
           <div class="score-meta">
-            <span class="score-heading">YOUR BODY MASS INDEX</span>
+            <span class="score-heading" id="score-heading-label">YOUR BODY MASS INDEX (BMI)</span>
             <div class="score-big-row">
               <span class="score-number" id="bmi-score">23.5</span>
               <span class="score-unit">kg/m²</span>
             </div>
             <div class="status-pill status-normal" id="status-pill">Normal Weight</div>
+            <div id="child-percentile-badge" class="percentile-text-badge hidden">65th Percentile for Age & Sex</div>
           </div>
 
           <!-- Google-Style Segmented Bar Gauge -->
           <div class="gauge-wrapper">
-            <div class="gauge-bar">
+            <div class="gauge-bar" id="gauge-bar">
               <div class="bar-seg seg-under" title="Underweight (&lt; 18.5)"></div>
               <div class="bar-seg seg-normal" title="Normal (18.5 - 24.9)"></div>
               <div class="bar-seg seg-over" title="Overweight (25 - 29.9)"></div>
               <div class="bar-seg seg-obese1" title="Obese (30 - 34.9)"></div>
-              <div class="bar-seg seg-obese2" title="Extremely Obese (35+)"></div>
+              <div class="bar-seg seg-obese2" title="Severe Obese (35+)"></div>
             </div>
             <div class="gauge-marker" id="gauge-marker">
               <div class="marker-bubble" id="marker-bubble">23.5</div>
               <div class="marker-arrow"></div>
             </div>
-            <div class="gauge-labels">
+            <div class="gauge-labels" id="gauge-labels">
               <span>18.5</span>
               <span>25.0</span>
               <span>30.0</span>
@@ -197,66 +211,80 @@
           </div>
         </div>
 
+        <!-- SPOTLIGHT: Healthy Weight Range Banner (in KG) -->
+        <div class="healthy-spotlight-card">
+          <div class="spotlight-header">
+            <span class="spotlight-icon">🎯</span>
+            <div>
+              <span class="spotlight-title">Healthy Weight Range (Munasib Wazan)</span>
+              <div class="spotlight-numbers" id="ideal-range-val">53.5 kg – 72.0 kg</div>
+            </div>
+          </div>
+          <p class="spotlight-desc" id="ideal-range-explanation">
+            Aapke qad ke mutabiq, sehat mand aur fit rehne ke liye wazan is range mein hona zaroori hai.
+          </p>
+        </div>
+
         <!-- Key Metrics Cards -->
         <div class="metrics-grid">
           <div class="metric-box">
-            <span class="m-label">🎯 Healthy Weight Range</span>
-            <span class="m-val" id="ideal-range-val">53.5 kg – 72.0 kg</span>
-            <span class="m-sub">For your height</span>
-          </div>
-          <div class="metric-box">
-            <span class="m-label">⚖️ Weight Difference</span>
+            <span class="m-label">⚖️ Target Weight Difference</span>
             <span class="m-val" id="weight-diff-val">Within healthy range</span>
             <span class="m-sub" id="weight-diff-sub">Perfect balance!</span>
           </div>
           <div class="metric-box">
-            <span class="m-label">🔥 Est. Daily Calories</span>
+            <span class="m-label">🔥 Daily Maintenance Calories</span>
             <span class="m-val" id="bmr-val">~2,150 kcal</span>
-            <span class="m-sub">Maintenance energy</span>
+            <span class="m-sub">Based on age, gender & kg</span>
           </div>
           <div class="metric-box">
-            <span class="m-label">💧 Daily Water Need</span>
+            <span class="m-label">💧 Daily Water Requirement</span>
             <span class="m-val" id="water-val">2.4 Liters</span>
-            <span class="m-sub">8 - 10 glasses</span>
+            <span class="m-sub">Approx. 8 - 10 glasses</span>
+          </div>
+          <div class="metric-box">
+            <span class="m-label" id="metric-four-label">📋 Ponderal Index</span>
+            <span class="m-val" id="ponderal-val">13.8 kg/m³</span>
+            <span class="m-sub">Corpulence rating</span>
           </div>
         </div>
 
-        <!-- WHO Classification Table -->
+        <!-- WHO / CDC Classification Table -->
         <div class="table-card">
-          <h3>WHO BMI Classification</h3>
+          <h3 id="table-card-title">WHO BMI Classification Standard</h3>
           <table class="bmi-table">
             <thead>
               <tr>
-                <th>Category</th>
+                <th>Zone / Category</th>
                 <th>BMI Range</th>
-                <th>Health Risk</th>
+                <th>Health Impact</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="bmi-table-body">
               <tr id="row-under">
                 <td><span class="dot dot-under"></span> Underweight</td>
                 <td>&lt; 18.5</td>
-                <td>Malnutrition risk</td>
+                <td>Malnutrition / low immunity</td>
               </tr>
               <tr id="row-normal" class="active-row">
                 <td><span class="dot dot-normal"></span> Normal Weight</td>
                 <td>18.5 – 24.9</td>
-                <td>Lowest health risk</td>
+                <td>Lowest health risks</td>
               </tr>
               <tr id="row-over">
                 <td><span class="dot dot-over"></span> Overweight</td>
                 <td>25.0 – 29.9</td>
-                <td>Increased risk</td>
+                <td>Moderate heart/joint risk</td>
               </tr>
               <tr id="row-obese1">
                 <td><span class="dot dot-obese1"></span> Obesity Class I</td>
                 <td>30.0 – 34.9</td>
-                <td>High risk</td>
+                <td>High risk of diabetes & BP</td>
               </tr>
               <tr id="row-obese2">
-                <td><span class="dot dot-obese2"></span> Obesity Class II+</td>
+                <td><span class="dot dot-obese2"></span> Severe Obesity</td>
                 <td>≥ 35.0</td>
-                <td>Very high risk</td>
+                <td>Extremely high health risk</td>
               </tr>
             </tbody>
           </table>
@@ -267,7 +295,7 @@
           <button type="button" class="btn btn-save" id="save-history-btn">
             💾 Save This Record
           </button>
-          <span id="save-feedback" class="save-feedback hidden">✓ Saved to history!</span>
+          <span id="save-feedback" class="save-feedback hidden">✓ Record successfully saved!</span>
         </div>
 
         <!-- History Log Drawer -->
@@ -282,168 +310,226 @@
   </main>
 
   <!-- ==============================================
-       EDITORIAL / EDUCATIONAL CONTENT SECTION
+       NEW SECTION: ATTRACTIVE COLOURED BMI ZONES CHART
        ============================================== -->
-  
-  <!-- Section 1: What is BMI & How it Works -->
-  <section class="content-section" id="about-bmi">
+  <section class="content-section bg-alt" id="bmi-zones-chart">
     <div class="content-wrapper">
       <div class="section-title-wrap">
-        <span class="section-badge">Comprehensive Guide</span>
-        <h2>What is Body Mass Index (BMI)?</h2>
-        <p class="section-subtext">Body Mass Index (BMI) is an internationally recognized screening tool that estimates your total body fat based on the relationship between your weight and height.</p>
+        <span class="section-badge">Visual Health Scale</span>
+        <h2>Coloured BMI Zones (Rangon Wala BMI Chart)</h2>
+        <p class="section-subtext">Understand your health at a single glance with our color-coded BMI zones, recommended by the World Health Organization (WHO).</p>
+      </div>
+
+      <!-- Color Zones Interactive Cards -->
+      <div class="color-zones-grid">
+        
+        <!-- Blue Zone -->
+        <div class="zone-card zone-blue">
+          <div class="zone-badge">Blue Zone</div>
+          <div class="zone-score">&lt; 18.5</div>
+          <h3>Underweight (Kam Wazan)</h3>
+          <p>Body fat is below clinical recommendation. Nutritious high-protein diet required to build healthy muscle and bone density.</p>
+          <div class="zone-footer">
+            <span>Health Risk: <strong>Under-nutrition</strong></span>
+          </div>
+        </div>
+
+        <!-- Green Zone -->
+        <div class="zone-card zone-green">
+          <div class="zone-badge">Green Zone ⭐ Ideal</div>
+          <div class="zone-score">18.5 – 24.9</div>
+          <h3>Normal Weight (Munasib Wazan)</h3>
+          <p>The optimal, safest zone with the lowest risk of cardiovascular diseases, diabetes, and joint issues. Continue current lifestyle!</p>
+          <div class="zone-footer">
+            <span>Health Risk: <strong>Lowest / Safe</strong></span>
+          </div>
+        </div>
+
+        <!-- Amber Zone -->
+        <div class="zone-card zone-amber">
+          <div class="zone-badge">Amber / Yellow Zone</div>
+          <div class="zone-score">25.0 – 29.9</div>
+          <h3>Overweight (Ziada Wazan)</h3>
+          <p>Slightly higher weight than recommended for your height. 30 minutes of daily brisk walk and cutting sugary snacks easily restores balance.</p>
+          <div class="zone-footer">
+            <span>Health Risk: <strong>Elevated Risk</strong></span>
+          </div>
+        </div>
+
+        <!-- Orange Zone -->
+        <div class="zone-card zone-orange">
+          <div class="zone-badge">Orange Zone</div>
+          <div class="zone-score">30.0 – 34.9</div>
+          <h3>Obese Class I (Bohat Ziada)</h3>
+          <p>Excess body fat puts extra workload on the heart, kidneys, and knees. Structured calorie moderation and cardio are recommended.</p>
+          <div class="zone-footer">
+            <span>Health Risk: <strong>High Risk</strong></span>
+          </div>
+        </div>
+
+        <!-- Red Zone -->
+        <div class="zone-card zone-red">
+          <div class="zone-badge">Red Zone 🚨 Alert</div>
+          <div class="zone-score">≥ 35.0</div>
+          <h3>Severe Obesity (Khatarnak)</h3>
+          <p>High likelihood of metabolic disorders, hypertension, and sleep apnea. Clinical consultation with a certified doctor or dietitian is strongly advised.</p>
+          <div class="zone-footer">
+            <span>Health Risk: <strong>Very High Risk</strong></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       NEW SECTION: HEIGHT TO HEALTHY WEIGHT TABLE IN KG
+       ============================================== -->
+  <section class="content-section" id="healthy-weight-chart">
+    <div class="content-wrapper">
+      <div class="section-title-wrap">
+        <span class="section-badge">Direct Weight Reference</span>
+        <h2>Height to Healthy Weight Chart in Kilograms (kg)</h2>
+        <p class="section-subtext">Find your exact height below to instantly see what your ideal body weight in <strong>kg</strong> should be (BMI 18.5 to 24.9).</p>
+      </div>
+
+      <div class="reference-table-card">
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Height (Feet & Inches)</th>
+              <th>Height in cm</th>
+              <th>Healthy Weight Range in kg</th>
+              <th>Healthy Weight in lbs</th>
+              <th>Ideal Target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>4 ft 10 in</strong></td>
+              <td>147 cm</td>
+              <td><span class="badge-kg">40.0 kg – 53.8 kg</span></td>
+              <td>88 – 118 lbs</td>
+              <td>~47 kg</td>
+            </tr>
+            <tr>
+              <td><strong>5 ft 0 in</strong></td>
+              <td>152 cm</td>
+              <td><span class="badge-kg">42.7 kg – 57.5 kg</span></td>
+              <td>94 – 127 lbs</td>
+              <td>~50 kg</td>
+            </tr>
+            <tr>
+              <td><strong>5 ft 2 in</strong></td>
+              <td>157 cm</td>
+              <td><span class="badge-kg">45.6 kg – 61.4 kg</span></td>
+              <td>101 – 135 lbs</td>
+              <td>~53 kg</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>5 ft 4 in</strong></td>
+              <td>163 cm</td>
+              <td><span class="badge-kg">49.2 kg – 66.2 kg</span></td>
+              <td>108 – 146 lbs</td>
+              <td>~57 kg</td>
+            </tr>
+            <tr>
+              <td><strong>5 ft 6 in</strong></td>
+              <td>168 cm</td>
+              <td><span class="badge-kg">52.2 kg – 70.3 kg</span></td>
+              <td>115 – 155 lbs</td>
+              <td>~61 kg</td>
+            </tr>
+            <tr class="highlight-row">
+              <td><strong>5 ft 8 in</strong></td>
+              <td>173 cm</td>
+              <td><span class="badge-kg">55.4 kg – 74.5 kg</span></td>
+              <td>122 – 164 lbs</td>
+              <td>~65 kg</td>
+            </tr>
+            <tr>
+              <td><strong>5 ft 10 in</strong></td>
+              <td>178 cm</td>
+              <td><span class="badge-kg">58.6 kg – 78.9 kg</span></td>
+              <td>129 – 174 lbs</td>
+              <td>~68 kg</td>
+            </tr>
+            <tr>
+              <td><strong>6 ft 0 in</strong></td>
+              <td>183 cm</td>
+              <td><span class="badge-kg">62.0 kg – 83.4 kg</span></td>
+              <td>137 – 184 lbs</td>
+              <td>~72 kg</td>
+            </tr>
+            <tr>
+              <td><strong>6 ft 2 in</strong></td>
+              <td>188 cm</td>
+              <td><span class="badge-kg">65.4 kg – 88.0 kg</span></td>
+              <td>144 – 194 lbs</td>
+              <td>~76 kg</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       NEW SECTION: CHILDREN & TEEN BMI SPECIAL GUIDE
+       ============================================== -->
+  <section class="content-section bg-alt" id="child-teen-guide">
+    <div class="content-wrapper">
+      <div class="section-title-wrap">
+        <span class="section-badge">Pediatric Health</span>
+        <h2>Children & Teen BMI (Ages 2 to 19 Years)</h2>
+        <p class="section-subtext">Bacho aur nojawano ka BMI baro se mukhtalif kyu hota hai? A complete growth guide for parents and adolescents.</p>
       </div>
 
       <div class="content-grid-2">
         <div class="info-card">
           <div class="card-icon-header">
-            <span class="icon-circle">📖</span>
-            <h3>The Science Behind BMI</h3>
+            <span class="icon-circle">🧒</span>
+            <h3>Why Children Need "BMI Percentiles"</h3>
           </div>
-          <p>Created in the 1830s by Belgian statistician Adolphe Quetelet, BMI provides an inexpensive, non-invasive method to identify whether someone is underweight, has a healthy weight, is overweight, or is obese.</p>
-          <p>Healthcare professionals and international bodies like the <strong>World Health Organization (WHO)</strong> and the <strong>Centers for Disease Control and Prevention (CDC)</strong> use BMI to track population health trends and assess risks for cardiovascular conditions.</p>
+          <p>Baro (adults) ka BMI fixed hota hai (jaise 18.5 se 24.9 normal hota hai). Lekin <strong>bachay aur teens musalsal barh rahe hote hain</strong>, aur unka body fat umar (age) aur jins (boy/girl) ke mutabiq tabdeel hota hai.</p>
+          <p>Is liye CDC aur WHO bacho ke liye <strong>Percentile System</strong> use karte hain, jisme unke wazan aur qad ka mawazna hazaro doosre hum-umar bacho se kiya jata hai:</p>
+          
+          <div class="percentile-list">
+            <div class="p-item p-under">
+              <strong>&lt; 5th Percentile:</strong> Underweight (Wazan kam hai)
+            </div>
+            <div class="p-item p-normal">
+              <strong>5th to 84th Percentile:</strong> Healthy Weight (Bilkull Sehat Mand)
+            </div>
+            <div class="p-item p-over">
+              <strong>85th to 94th Percentile:</strong> Overweight (Wazan barh raha hai)
+            </div>
+            <div class="p-item p-obese">
+              <strong>≥ 95th Percentile:</strong> Obesity (Ziada wazan, doctor se mashwara zaroori)
+            </div>
+          </div>
         </div>
 
         <div class="info-card">
           <div class="card-icon-header">
-            <span class="icon-circle">📐</span>
-            <h3>How is BMI Calculated? (Formulas)</h3>
+            <span class="icon-circle">🥦</span>
+            <h3>Healthy Parenting Tips for Growing Kids</h3>
           </div>
-          <p>BMI is determined by dividing an individual's weight by the square of their height:</p>
-          <div class="formula-box">
-            <div class="formula-title">Metric Formula (Global Standard):</div>
-            <code>BMI = Weight (kg) ÷ [Height (m)]²</code>
-          </div>
-          <div class="formula-box">
-            <div class="formula-title">Imperial Formula (US Standard):</div>
-            <code>BMI = 703 × Weight (lbs) ÷ [Height (inches)]²</code>
-          </div>
+          <p>Agar aapke bache ka BMI percentile normal se bahar hai, to foran crash dieting ya wazan kam karne ki sakhti <strong>harghiz na karein</strong>, kyu ke unki haddiya aur zehni salahiyat barh rahi hoti hai.</p>
+          
+          <ul class="parenting-tips">
+            <li><strong>Outdoor Play:</strong> Rozana kam az kam 60 minutes physical activity ya sports.</li>
+            <li><strong>Limit Screen Time:</strong> Mobile aur TV ka waqt mehdood karein taake physical mobility barhe.</li>
+            <li><strong>Healthy Home Meals:</strong> Soft drinks aur junk food ki jagah doodh, taaza phal, anda aur home-cooked meals dein.</li>
+            <li><strong>Consult Pediatrician:</strong> Kisi bhi baray faislay se pehle bacho ke doctor se unke growth curve ka checkup karwayein.</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 2: Detailed Category Breakdown & Health Guidelines -->
-  <section class="content-section bg-alt" id="bmi-categories">
-    <div class="content-wrapper">
-      <div class="section-title-wrap">
-        <span class="section-badge">Clinical Understanding</span>
-        <h2>Understanding Your BMI Categories & Health Impact</h2>
-        <p class="section-subtext">Each category indicates specific biological indicators and actionable lifestyle recommendations.</p>
-      </div>
-
-      <div class="cards-grid-4">
-        
-        <!-- Underweight -->
-        <div class="category-card card-under">
-          <div class="cat-header">
-            <span class="cat-tag">BMI &lt; 18.5</span>
-            <h4>Underweight</h4>
-          </div>
-          <p class="cat-desc">Your weight is below the expected range for your height. This may stem from genetics, high metabolism, or nutritional deficiencies.</p>
-          <div class="cat-points">
-            <strong>Risks:</strong>
-            <ul>
-              <li>Weakened immune system</li>
-              <li>Osteoporosis & bone fragility</li>
-              <li>Fatigue and muscle loss</li>
-            </ul>
-          </div>
-          <div class="cat-tip">
-            💡 <strong>Action Tip:</strong> Focus on nutrient-dense meals, wholesome nuts, avocados, and quality proteins.
-          </div>
-        </div>
-
-        <!-- Normal Weight -->
-        <div class="category-card card-normal">
-          <div class="cat-header">
-            <span class="cat-tag">BMI 18.5 – 24.9</span>
-            <h4>Normal Weight</h4>
-          </div>
-          <p class="cat-desc">Congratulations! You are within the optimal health zone with the lowest statistical risk of metabolic and heart illnesses.</p>
-          <div class="cat-points">
-            <strong>Benefits:</strong>
-            <ul>
-              <li>Optimal cardiovascular stamina</li>
-              <li>Balanced blood sugar levels</li>
-              <li>Healthy joint mobility</li>
-            </ul>
-          </div>
-          <div class="cat-tip">
-            💡 <strong>Action Tip:</strong> Keep up consistent habits: 30 minutes of daily physical activity and a balanced diet.
-          </div>
-        </div>
-
-        <!-- Overweight -->
-        <div class="category-card card-over">
-          <div class="cat-header">
-            <span class="cat-tag">BMI 25.0 – 29.9</span>
-            <h4>Overweight</h4>
-          </div>
-          <p class="cat-desc">You are carrying more weight than recommended. Modest, sustainable habits can easily bring you back to normal.</p>
-          <div class="cat-points">
-            <strong>Risks:</strong>
-            <ul>
-              <li>Early hypertension / high BP</li>
-              <li>Mild joint strain in knees & hips</li>
-              <li>Increased cholesterol risk</li>
-            </ul>
-          </div>
-          <div class="cat-tip">
-            💡 <strong>Action Tip:</strong> Reduce sugary drinks, practice portion control, and add 7,000–10,000 daily steps.
-          </div>
-        </div>
-
-        <!-- Obese -->
-        <div class="category-card card-obese">
-          <div class="cat-header">
-            <span class="cat-tag">BMI ≥ 30.0</span>
-            <h4>Obesity</h4>
-          </div>
-          <p class="cat-desc">Significant excess body weight that places sustained strain on vital internal organs and joint systems.</p>
-          <div class="cat-points">
-            <strong>Risks:</strong>
-            <ul>
-              <li>Type 2 diabetes & fatty liver</li>
-              <li>Cardiovascular complications</li>
-              <li>Sleep apnea and breathlessness</li>
-            </ul>
-          </div>
-          <div class="cat-tip">
-            💡 <strong>Action Tip:</strong> Consult a certified physician or clinical dietitian for a tailored, safe health strategy.
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 3: Limitations of BMI (Important Medical Context) -->
-  <section class="content-section">
-    <div class="content-wrapper">
-      <div class="feature-box">
-        <div class="feature-icon">⚠️</div>
-        <div class="feature-body">
-          <h3>Important: When is BMI Not Completely Accurate?</h3>
-          <p>While BMI is a fantastic initial benchmark, it does not directly distinguish between <strong>muscle mass</strong>, <strong>bone density</strong>, and <strong>body fat percentage</strong>:</p>
-          <div class="limitations-grid">
-            <div class="limitation-item">
-              <strong>🏋️ Athletes & Bodybuilders:</strong> Muscle weighs more by volume than fat. Highly fit athletes often register as "Overweight" or "Obese" despite having very low body fat.
-            </div>
-            <div class="limitation-item">
-              <strong>👵 Older Adults:</strong> Seniors naturally lose bone and muscle density (sarcopenia), meaning fat levels may be higher even if BMI appears normal.
-            </div>
-            <div class="limitation-item">
-              <strong>🤰 Pregnant & Nursing Mothers:</strong> Fluid retention and baby development skew BMI calculations. Specialized charts are recommended.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 4: Interactive FAQs -->
-  <section class="content-section bg-alt" id="faqs">
+  <!-- Section: Interactive FAQs -->
+  <section class="content-section" id="faqs">
     <div class="content-wrapper">
       <div class="section-title-wrap">
         <span class="section-badge">Got Questions?</span>
@@ -454,51 +540,41 @@
       <div class="accordion-container">
         <div class="faq-item">
           <button class="faq-question">
-            <span>What is the healthiest BMI score?</span>
+            <span>What is the healthiest BMI score in kg/m²?</span>
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>For most adults, a BMI between <strong>18.5 and 24.9</strong> is considered the healthy sweet spot. In this range, the statistical risk of developing chronic diseases (like stroke, diabetes, and heart ailments) is significantly minimized.</p>
+            <p>For adults, a BMI between <strong>18.5 and 24.9 kg/m²</strong> is considered the healthy sweet spot. In this range, the risk of developing heart disease, diabetes, and hypertension is at its absolute lowest.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-question">
-            <span>How often should I check my BMI?</span>
+            <span>How do I switch to Children / Teen BMI mode?</span>
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>Checking once every <strong>2 to 4 weeks</strong> is optimal. Daily weigh-ins fluctuate wildly due to water retention, sodium intake, and hydration, which does not reflect genuine fat changes.</p>
+            <p>Screen ke ooper page header par <strong>"Children & Teens (2–19 Years)"</strong> button par click karein. Ye mode pediatric growth percentiles aur bacho ke hisab se calculations activate kar deta hai!</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-question">
-            <span>Is BMI calculation the same for men and women?</span>
+            <span>How is ideal body weight in kg calculated?</span>
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>The core mathematical formula is identical for adult men and women. However, women naturally carry a higher percentage of essential body fat than men at the same BMI level. Our advanced calculator factors gender into the estimated daily calorie (BMR) output.</p>
+            <p>Ideal body weight is calculated using your height: Minimum healthy weight = <code>18.5 × [height in meters]²</code> and Maximum healthy weight = <code>24.9 × [height in meters]²</code>. This gives your personal healthy kg range.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button class="faq-question">
-            <span>Can children and teenagers use this calculator?</span>
+            <span>Is BMI accurate for athletes and bodybuilders?</span>
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>For individuals under 20 years old, BMI is calculated using the same formula but interpreted differently via <strong>BMI-for-age percentiles</strong> (comparing against growth charts from CDC or WHO) because young bodies develop at varying speeds.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>What should I do if my BMI is high?</span>
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>Don't panic! Small consistent changes compound over time. Start by eliminating sugary drinks, adopting 30 minutes of daily walking, eating whole fibrous vegetables, and speaking with a qualified nutritionist or doctor.</p>
+            <p>Athletes have a high amount of lean muscle tissue. Since muscle is heavier and denser than fat, an athlete may have a high BMI while having very low body fat percentage.</p>
           </div>
         </div>
       </div>
@@ -515,11 +591,11 @@
           </div>
           <span class="brand-name">BMI Calculator</span>
         </div>
-        <p class="footer-desc">A free, modern health utility designed to empower your fitness goals with verified clinical standards.</p>
+        <p class="footer-desc">Professional Health & Wellness Tool for Adults, Children & Teens in kg & cm.</p>
       </div>
 
       <div class="footer-disclaimer">
-        <strong>Medical Disclaimer:</strong> This application provides general wellness information and calculation estimates for educational purposes only. It is not intended as a substitute for professional medical advice, clinical diagnosis, or medical treatment.
+        <strong>Medical Disclaimer:</strong> This application provides general wellness information and calculation estimates for educational purposes only. Always consult a licensed physician or pediatrician for clinical diagnosis.
       </div>
 
       <div class="footer-bottom">
