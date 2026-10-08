@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BMI Calculator</title>
+  <title>BMI Calculator - Professional Health Tool</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="background-decor">
-    <div class="circle circle-1"></div>
-    <div class="circle circle-2"></div>
-  </div>
-
-  <!-- Navigation Bar -->
+  <!-- Header / Navigation Bar -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-brand">
-        <span class="brand-icon">⚖️</span>
-        <span class="brand-name">BMI Calculator</span>
+        <div class="logo-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v18M3 9l9-6 9 6M6 12l-3 6h6l-3-6zm12 0l-3 6h6l-3-6z"/></svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">BMI Calculator</span>
+          <span class="brand-tag">Professional Health Tool</span>
+        </div>
       </div>
       <div class="nav-auth" id="nav-auth">
         <button type="button" class="btn-signin" id="open-signin-btn">
@@ -30,125 +30,238 @@
     </div>
   </nav>
 
-  <main class="container">
-    <div class="calculator-card">
-      <header class="header">
-        <div class="badge">🩺 Health & Fitness</div>
-        <h1>BMI Calculator</h1>
-        <p>Apna Body Mass Index (BMI) maloom karein aur healthy rahein!</p>
-      </header>
-
-      <!-- Unit Selector Tabs -->
-      <div class="tabs">
-        <button class="tab-btn active" id="metric-tab" type="button">Metric (kg / cm)</button>
-        <button class="tab-btn" id="imperial-tab" type="button">Imperial (lbs / ft-in)</button>
-      </div>
-
-      <form id="bmi-form">
-        <!-- Gender Selection -->
-        <div class="gender-section">
-          <label class="section-label">Gender</label>
-          <div class="gender-toggle">
-            <label class="gender-option active" id="gender-male">
-              <input type="radio" name="gender" value="male" checked>
-              <span class="icon">👨</span>
-              <span>Male</span>
-            </label>
-            <label class="gender-option" id="gender-female">
-              <input type="radio" name="gender" value="female">
-              <span class="icon">👩</span>
-              <span>Female</span>
-            </label>
+  <main class="page-container">
+    <div class="calculator-grid">
+      
+      <!-- Left Column: Inputs Form -->
+      <section class="calc-panel card">
+        <div class="panel-header">
+          <h2>Body Parameters</h2>
+          <div class="unit-toggle-pill">
+            <button type="button" class="pill-btn active" id="tab-metric">Metric (kg, cm)</button>
+            <button type="button" class="pill-btn" id="tab-imperial">US / Imperial (lbs, ft)</button>
           </div>
         </div>
 
-        <!-- Metric Inputs -->
-        <div id="metric-inputs" class="input-group">
-          <div class="input-field">
-            <label for="height-cm">Height (cm)</label>
-            <div class="input-wrapper">
-              <input type="number" id="height-cm" placeholder="e.g. 170" min="50" max="250" step="0.1">
-              <span class="unit">cm</span>
+        <form id="bmi-form">
+          <!-- Gender -->
+          <div class="form-group">
+            <label class="group-title">Gender</label>
+            <div class="gender-grid">
+              <label class="gender-card active" id="gender-male-label">
+                <input type="radio" name="gender" value="male" checked>
+                <span class="gender-icon">👨</span>
+                <span class="gender-text">Male</span>
+              </label>
+              <label class="gender-card" id="gender-female-label">
+                <input type="radio" name="gender" value="female">
+                <span class="gender-icon">👩</span>
+                <span class="gender-text">Female</span>
+              </label>
             </div>
           </div>
-          <div class="input-field">
-            <label for="weight-kg">Weight (kg)</label>
-            <div class="input-wrapper">
-              <input type="number" id="weight-kg" placeholder="e.g. 65" min="20" max="300" step="0.1">
-              <span class="unit">kg</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- Imperial Inputs -->
-        <div id="imperial-inputs" class="input-group hidden">
-          <div class="input-field">
-            <label>Height (Feet & Inches)</label>
-            <div class="height-dual">
-              <div class="input-wrapper">
-                <input type="number" id="height-ft" placeholder="Feet" min="2" max="8">
-                <span class="unit">ft</span>
-              </div>
-              <div class="input-wrapper">
-                <input type="number" id="height-in" placeholder="Inches" min="0" max="11">
-                <span class="unit">in</span>
+          <!-- Age -->
+          <div class="form-group">
+            <div class="label-row">
+              <label for="age-input" class="group-title">Age (Ages 2 - 120)</label>
+              <span class="helper-text" id="age-badge">Adult (20+)</span>
+            </div>
+            <div class="input-with-stepper">
+              <input type="number" id="age-input" value="25" min="2" max="120">
+              <span class="input-unit">years</span>
+            </div>
+          </div>
+
+          <!-- Height Section -->
+          <div class="form-group" id="height-metric-group">
+            <div class="label-row">
+              <label for="height-cm" class="group-title">Height</label>
+              <span class="value-badge" id="height-cm-display">170 cm</span>
+            </div>
+            <div class="slider-input-combo">
+              <input type="range" id="height-cm-slider" min="90" max="230" value="170" class="custom-slider">
+              <div class="number-input-wrap">
+                <input type="number" id="height-cm" value="170" min="90" max="230" step="0.5">
+                <span class="input-unit">cm</span>
               </div>
             </div>
           </div>
-          <div class="input-field">
-            <label for="weight-lbs">Weight (Pounds)</label>
-            <div class="input-wrapper">
-              <input type="number" id="weight-lbs" placeholder="e.g. 145" min="40" max="600" step="0.1">
-              <span class="unit">lbs</span>
+
+          <div class="form-group hidden" id="height-imperial-group">
+            <label class="group-title">Height (Feet & Inches)</label>
+            <div class="height-dual-grid">
+              <div class="number-input-wrap">
+                <input type="number" id="height-ft" value="5" min="2" max="8">
+                <span class="input-unit">ft</span>
+              </div>
+              <div class="number-input-wrap">
+                <input type="number" id="height-in" value="7" min="0" max="11">
+                <span class="input-unit">in</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weight Section -->
+          <div class="form-group" id="weight-metric-group">
+            <div class="label-row">
+              <label for="weight-kg" class="group-title">Weight</label>
+              <span class="value-badge" id="weight-kg-display">68 kg</span>
+            </div>
+            <div class="slider-input-combo">
+              <input type="range" id="weight-kg-slider" min="30" max="180" value="68" step="0.5" class="custom-slider">
+              <div class="number-input-wrap">
+                <input type="number" id="weight-kg" value="68" min="20" max="250" step="0.1">
+                <span class="input-unit">kg</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group hidden" id="weight-imperial-group">
+            <div class="label-row">
+              <label for="weight-lbs" class="group-title">Weight</label>
+              <span class="value-badge" id="weight-lbs-display">150 lbs</span>
+            </div>
+            <div class="slider-input-combo">
+              <input type="range" id="weight-lbs-slider" min="65" max="400" value="150" step="1" class="custom-slider">
+              <div class="number-input-wrap">
+                <input type="number" id="weight-lbs" value="150" min="40" max="500" step="0.5">
+                <span class="input-unit">lbs</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline" id="reset-all-btn">Reset</button>
+            <button type="submit" class="btn btn-primary" id="calc-submit-btn">
+              <span>Recalculate BMI</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right Column: Interactive Google-Style Results -->
+      <section class="results-panel card">
+        <div class="panel-header">
+          <h2>BMI Results & Insights</h2>
+          <span class="live-pill">● Real-time analysis</span>
+        </div>
+
+        <!-- Big Score Card -->
+        <div class="score-card">
+          <div class="score-meta">
+            <span class="score-heading">YOUR BODY MASS INDEX</span>
+            <div class="score-big-row">
+              <span class="score-number" id="bmi-score">23.5</span>
+              <span class="score-unit">kg/m²</span>
+            </div>
+            <div class="status-pill status-normal" id="status-pill">Normal Weight</div>
+          </div>
+
+          <!-- Google-Style Segmented Bar Gauge -->
+          <div class="gauge-wrapper">
+            <div class="gauge-bar">
+              <div class="bar-seg seg-under" title="Underweight (&lt; 18.5)"></div>
+              <div class="bar-seg seg-normal" title="Normal (18.5 - 24.9)"></div>
+              <div class="bar-seg seg-over" title="Overweight (25 - 29.9)"></div>
+              <div class="bar-seg seg-obese1" title="Obese (30 - 34.9)"></div>
+              <div class="bar-seg seg-obese2" title="Extremely Obese (35+)"></div>
+            </div>
+            <div class="gauge-marker" id="gauge-marker">
+              <div class="marker-bubble" id="marker-bubble">23.5</div>
+              <div class="marker-arrow"></div>
+            </div>
+            <div class="gauge-labels">
+              <span>18.5</span>
+              <span>25.0</span>
+              <span>30.0</span>
+              <span>35.0</span>
             </div>
           </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="button-group">
-          <button type="submit" class="btn btn-primary" id="calculate-btn">
-            <span>Calculate BMI</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <!-- Key Metrics Cards (Google-style breakdown) -->
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <span class="m-label">🎯 Healthy Weight Range</span>
+            <span class="m-val" id="ideal-range-val">53.5 kg – 72.0 kg</span>
+            <span class="m-sub">For your height</span>
+          </div>
+          <div class="metric-box">
+            <span class="m-label">⚖️ Weight Difference</span>
+            <span class="m-val" id="weight-diff-val">Within healthy range</span>
+            <span class="m-sub" id="weight-diff-sub">Perfect balance!</span>
+          </div>
+          <div class="metric-box">
+            <span class="m-label">🔥 Est. Daily Calories</span>
+            <span class="m-val" id="bmr-val">~2,150 kcal</span>
+            <span class="m-sub">Maintenance energy</span>
+          </div>
+          <div class="metric-box">
+            <span class="m-label">💧 Daily Water Need</span>
+            <span class="m-val" id="water-val">2.4 Liters</span>
+            <span class="m-sub">8 - 10 glasses</span>
+          </div>
+        </div>
+
+        <!-- WHO Classification Table -->
+        <div class="table-card">
+          <h3>WHO BMI Classification</h3>
+          <table class="bmi-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>BMI Range</th>
+                <th>Health Risk</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row-under">
+                <td><span class="dot dot-under"></span> Underweight</td>
+                <td>&lt; 18.5</td>
+                <td>Malnutrition risk</td>
+              </tr>
+              <tr id="row-normal" class="active-row">
+                <td><span class="dot dot-normal"></span> Normal Weight</td>
+                <td>18.5 – 24.9</td>
+                <td>Lowest health risk</td>
+              </tr>
+              <tr id="row-over">
+                <td><span class="dot dot-over"></span> Overweight</td>
+                <td>25.0 – 29.9</td>
+                <td>Increased risk</td>
+              </tr>
+              <tr id="row-obese1">
+                <td><span class="dot dot-obese1"></span> Obesity Class I</td>
+                <td>30.0 – 34.9</td>
+                <td>High risk</td>
+              </tr>
+              <tr id="row-obese2">
+                <td><span class="dot dot-obese2"></span> Obesity Class II+</td>
+                <td>≥ 35.0</td>
+                <td>Very high risk</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Action / Save to History -->
+        <div class="history-action-box">
+          <button type="button" class="btn btn-save" id="save-history-btn">
+            💾 Save This Record
           </button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
-        </div>
-      </form>
-
-      <!-- Results Display -->
-      <div id="result-box" class="result-box hidden">
-        <hr class="divider">
-        
-        <div class="score-display">
-          <span class="score-label">Your BMI Score</span>
-          <div class="score-value" id="bmi-value">--</div>
-          <div class="status-badge" id="bmi-category">Normal</div>
+          <span id="save-feedback" class="save-feedback hidden">✓ Saved to history!</span>
         </div>
 
-        <!-- BMI Scale Gauge -->
-        <div class="scale-container">
-          <div class="scale-bar">
-            <div class="scale-segment seg-under"></div>
-            <div class="scale-segment seg-normal"></div>
-            <div class="scale-segment seg-over"></div>
-            <div class="scale-segment seg-obese"></div>
-          </div>
-          <div class="scale-needle" id="scale-needle"></div>
-          <div class="scale-labels">
-            <span>&lt;18.5</span>
-            <span>18.5 - 24.9</span>
-            <span>25 - 29.9</span>
-            <span>30+</span>
-          </div>
+        <!-- History Log Drawer -->
+        <div class="history-list-wrap hidden" id="history-section">
+          <h4>Your Saved Logs</h4>
+          <div id="history-items" class="history-items"></div>
         </div>
 
-        <!-- Health Advice Card -->
-        <div class="advice-card" id="advice-card">
-          <div class="advice-icon" id="advice-icon">💡</div>
-          <div class="advice-text" id="advice-text">
-            Aapka wazan bilkul munasib hai! Healthy diet aur daily walk continue rakhein.
-          </div>
-        </div>
-      </div>
+      </section>
+
     </div>
   </main>
 
@@ -164,25 +277,19 @@
       </div>
 
       <form id="auth-form">
-        <div class="input-field">
-          <label for="user-name">Your Name</label>
-          <div class="input-wrapper">
-            <input type="text" id="user-name" placeholder="e.g. Maryam" required>
-          </div>
+        <div class="form-group">
+          <label for="user-name" class="group-title">Your Name</label>
+          <input type="text" id="user-name" class="modal-input" placeholder="e.g. Maryam" required>
         </div>
 
-        <div class="input-field">
-          <label for="user-email">Email Address</label>
-          <div class="input-wrapper">
-            <input type="email" id="user-email" placeholder="maryam@example.com" required>
-          </div>
+        <div class="form-group">
+          <label for="user-email" class="group-title">Email Address</label>
+          <input type="email" id="user-email" class="modal-input" placeholder="maryam@example.com" required>
         </div>
 
-        <div class="input-field">
-          <label for="user-password">Password</label>
-          <div class="input-wrapper">
-            <input type="password" id="user-password" placeholder="••••••••" required>
-          </div>
+        <div class="form-group">
+          <label for="user-password" class="group-title">Password</label>
+          <input type="password" id="user-password" class="modal-input" placeholder="••••••••" required>
         </div>
 
         <button type="submit" class="btn btn-primary btn-full">
